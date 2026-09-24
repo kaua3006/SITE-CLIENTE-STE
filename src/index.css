@@ -62,6 +62,20 @@ body {
   background: currentColor;
 }
 
+/* Pulso do "elo crítico" — o ponto que quase se rompe na corrente do método */
+@keyframes critical-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(63, 207, 192, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(63, 207, 192, 0);
+  }
+}
+.critical-pulse {
+  animation: critical-pulse 2.6s ease-out infinite;
+}
+
 /* Textura sutil de grão para seções de cor sólida */
 .grain::after {
   content: "";

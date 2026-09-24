@@ -2,6 +2,8 @@ export interface MethodStage {
   number: string;
   title: string;
   text: string;
+  // Marca a etapa em que o "elo crítico" é encontrado — recebe destaque visual distinto.
+  critical?: boolean;
 }
 
 // Etapas do método "Medicina do Elo Crítico", como descritas em fabiothuler.care/about
@@ -15,6 +17,7 @@ export const methodStages: MethodStage[] = [
     number: "02",
     title: "Hierarquia de Prioridades",
     text: "Identificação do ponto mais frágil — o que está realmente sustentando o quadro atual.",
+    critical: true,
   },
   {
     number: "03",
