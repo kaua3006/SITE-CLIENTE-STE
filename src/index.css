@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  @apply bg-background font-body text-foreground antialiased;
+}
+
+::selection {
+  background-color: #1f5f58;
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 2px solid #3fcfc0;
+  outline-offset: 2px;
+}
+
+/* Filete dourado — motivo gráfico recorrente (referência à corrente do livro) */
+.gold-rule {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  color: #cda354;
+}
+.gold-rule::before,
+.gold-rule::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: currentColor;
+  opacity: 0.35;
+}
+.gold-rule span {
+  width: 7px;
+  height: 7px;
+  transform: rotate(45deg);
+  background: currentColor;
+}
+
+/* Pulso do "elo crítico" — o ponto que quase se rompe na corrente do método */
+@keyframes critical-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(63, 207, 192, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(63, 207, 192, 0);
+  }
+}
+.critical-pulse {
+  animation: critical-pulse 2.6s ease-out infinite;
+}
+
+/* Textura sutil de grão para seções de cor sólida */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+}

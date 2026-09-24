@@ -1,27 +1,26 @@
-# OBRA — Landing page conceito
+# O Elo Mais Frágil — Site do livro (Dr. Fábio Thuler)
 
-Site de um **estúdio criativo fictício** ("faz tudo que acontece numa tela, e além"),
-inspirado na linguagem visual de produtoras premium europeias — nenhum texto, logo, case
-ou nome copiado de nenhuma produtora real.
+Site institucional + página de vendas do livro **"O Elo Mais Frágil"**, do Dr. Fábio Thuler
+(cirurgião digestivo, criador da Medicina do Elo Crítico). Inclui um **checkout simulado**
+em `/checkout` para demonstração — não processa pagamentos reais.
 
-> Este projeto **substituiu** o site do livro "O Elo Mais Frágil" (Dr. Fábio Thuler) neste
-> repositório, a pedido do usuário. O histórico do site antigo continua disponível nos
-> commits anteriores do Git, caso precise recuperá-lo.
+Conceito visual: segue a própria capa do livro — azul-marinho quase preto, dourado e um brilho
+ciano na corrente se rompendo. Tipografia Spectral (serifada, literária) + Plus Jakarta Sans.
 
-## O que é
+> **Leia o `PENDENCIAS.md`** — lista tudo que ainda precisa ser confirmado (preço do livro, CRM,
+> vídeos reais, depoimentos) antes de publicar de verdade.
 
-Página única (`index.html`), sem framework — HTML/CSS/JS puro, sem imagens externas
-(gradientes, ruído e formas em CSS). Preto absoluto dominante, tipografia editorial gigante
-(Archivo + Instrument Serif), um único acento verde-limão.
+## Tecnologias
 
-Seções: header + menu fullscreen · hero com disciplinas clicáveis · manifesto com revelação
-de texto no scroll · /Capacidades (hover troca mídia de fundo) · /Trabalhos (grid assimétrico,
-cursor customizado, filtro por disciplina) · /Novidades (cards horizontais arrastáveis) ·
-newsletter com marquee · footer com as cidades do estúdio.
+- React 18 + TypeScript + Vite
+- React Router (rota `/` e `/checkout`)
+- Tailwind CSS
+- Framer Motion (animações sutis, respeita `prefers-reduced-motion`)
+- Lucide React (ícones lineares)
 
-## Rodar localmente
+## Rodar o projeto
 
-Pré-requisito: Node.js 18+.
+Pré-requisito: Node.js 18 ou superior.
 
 ```bash
 npm install
@@ -30,35 +29,50 @@ npm run build    # build de produção em dist/
 npm run preview
 ```
 
-Como é uma página estática, também dá pra abrir `index.html` direto no navegador sem
-instalar nada — só as fontes do Google Fonts precisam de internet.
-
 ## Estrutura
 
 ```
-index.html          -> tudo: markup, <style> e <script> inline
-public/
-  favicon.svg
-  og-image.jpg       -> miniatura ao compartilhar (1200×630)
-  robots.txt
+src/
+  components/     -> Seções da página (Hero, AuthorAbout, Method, Videos, BookSection,
+                      Proof, Offer, FaqSection, Header, Footer, ...)
+  data/           -> Conteúdo estruturado (method, videos, faq, navigation)
+  config/site.ts  -> Dados centrais (nome, WhatsApp, endereço do consultório, preço do livro)
+  pages/
+    Home.tsx      -> Página de vendas (rota "/")
+    Checkout.tsx  -> Checkout simulado (rota "/checkout")
+  App.tsx         -> Header + Router + Footer + botão flutuante de WhatsApp
+  index.css       -> Tailwind + estilos globais (.gold-rule, .grain)
 ```
 
-## Se quiser transformar num site real
+## O checkout é uma simulação
 
-Hoje é um projeto conceito/fictício. Para virar um site de verdade, trocar:
+A rota `/checkout` (`src/pages/Checkout.tsx`) é só uma demonstração visual: o formulário não
+envia nada para nenhum servidor, não salva nada e o botão "Finalizar compra" apenas mostra uma
+tela de sucesso local. **Antes de publicar de verdade**, essa página precisa ser trocada por um
+checkout real, ligado a um gateway de pagamento (Hotmart, Kiwify, Stripe, Mercado Pago etc.) —
+isso é um passo de integração separado.
+
+## O que substituir antes de publicar
+
+Resumo — detalhado em `PENDENCIAS.md`.
 
 | O que | Onde |
 |---|---|
-| Nome do estúdio (se "OBRA" não for o definitivo) | busca e troca em `index.html` (logo, `<title>`, meta tags, rodapé) |
-| E-mail de contato (`ola@obra.studio`) | `index.html` — vários links `mailto:` |
-| Redes sociais (hoje apontam para dentro da própria página) | rodapé em `index.html` |
-| Domínio | `index.html` (`canonical`, Open Graph) |
-| Cases e nomes de diretores (hoje fictícios) | seção `/Trabalhos` em `index.html` |
+| Preço do livro | `src/config/site.ts` → `price` |
+| CRM do Dr. Fábio | `src/config/site.ts` → `crm` |
+| Vídeos reais | `src/data/videos.ts` |
+| Depoimentos de leitores | `src/components/Proof.tsx` |
+| Checkout real (gateway de pagamento) | `src/pages/Checkout.tsx` |
+| Domínio / SEO | `index.html` (`canonical`, Open Graph, JSON-LD) |
 
-## Acessibilidade
+## Acessibilidade e SEO
 
-- `prefers-reduced-motion` respeitado (loader, marquee, revelações, parallax)
-- Menu fullscreen com `aria-modal`, trap de teclado e fechamento por `Escape`
-- Cursor customizado desativado em telas de toque (mantém o cursor nativo)
-- `:focus-visible` visível em todos os elementos interativos
-- Contraste ajustado para os textos grandes em tons "apagados" (`--faint`)
+- Um único `<h1>` (Hero), hierarquia `<h2>`/`<h3>` nas demais seções
+- `alt` descritivo nas imagens, `aria-label` em botões só com ícone
+- `:focus-visible` visível, link "pular para o conteúdo"
+- Metatags de título, descrição, Open Graph, Twitter Card e Schema.org (`Book` + `Person`)
+- Respeita `prefers-reduced-motion`
+
+## Responsividade
+
+Mobile-first com Tailwind (`sm`/`md`/`lg`), pensado para 375 / 768 / 1024 / 1440 px.
